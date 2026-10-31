@@ -1,5 +1,5 @@
 const { normalizeEvaluation } = require('./replacementScore');
-const sectors = ['Laboratório Demo', 'Produto Demo', 'Criação Demo', 'Operações Demo', 'Suporte Demo', 'Pesquisa Demo'];
+const sectors = ['Tecnologia da Informação', 'Financeiro', 'Recursos Humanos', 'Operações', 'Comercial', 'Administrativo'];
 function generateMachines() {
   return Array.from({ length: 72 }, (_, i) => ({
     id_maquina: i + 1,
