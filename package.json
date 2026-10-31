@@ -1,0 +1,15 @@
+{
+  "name": "inventario-portfolio-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Inventário de TI com dados integralmente sintéticos e persistência local isolada",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node backend/src/server.js"
+  },
+  "dependencies": {
+    "express": "5.2.1"
+  }
+}

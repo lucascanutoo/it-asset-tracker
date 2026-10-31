@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | Inventário de TI</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script src="/ui.js" defer></script>
+  <script src="/login.js" defer></script>
+</head>
+<body class="login-page"><div class="demo-banner" role="note">DEMONSTRAÇÃO DE PORTFÓLIO · Todos os dados são fictícios · Use apenas informações sintéticas</div>
+  <main class="login-panel panel" aria-labelledby="login-title">
+    <div class="login-brand"><img src="/demo-logo.svg" alt="Inventário Demo" width="160"></div>
+    <div class="panel-heading"><div><p class="section-kicker">INVENTÁRIO DE TI</p><h1 id="login-title">Entre na sua conta</h1></div></div>
+    <div id="login-feedback" class="modal-feedback" role="alert" hidden></div>
+    <form id="login-form" class="machine-form">
+      <label class="field"><span>Usuário</span><input name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="80" required autofocus></label>
+      <label class="field"><span>Senha</span><input name="password" type="password" autocomplete="current-password" maxlength="256" required></label>
+      <label class="password-toggle"><input id="show-password" type="checkbox"> Mostrar senha</label>
+      <button id="login-submit" class="button button-primary btn btn-primary" type="submit">Entrar</button>
+    </form>
+    <div class="login-footer"><p>Contas públicas fictícias: demo.admin ou demo.gestor<br>Senha de demonstração para ambas: Demo-Portfolio-2026!<br>Uso local. Não utilize dados reais.</p></div>
+  </main>
+</body>
+</html>

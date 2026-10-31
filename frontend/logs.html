@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logs de alterações | Inventário de TI</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script src="/ui.js" defer></script><link rel="stylesheet" href="/logs.css">
+  <script src="/logs.js" defer></script><script src="/account.js" defer></script>
+</head>
+<body><div class="demo-banner" role="note">DEMONSTRAÇÃO DE PORTFÓLIO · Todos os dados são fictícios · Use apenas informações sintéticas</div>
+  <div class="app-layout">
+    <aside class="sidebar"><img src="/demo-logo.svg" alt="Inventário Demo" class="sidebar-logo"><nav aria-label="Navegação principal"><a class="nav-link" href="/?page=visao" data-page="visao">Visão Geral do Inventário</a><a class="nav-link" href="/?page=alugadas" data-page="alugadas">Máquinas Alugadas</a><a class="nav-link" href="/gerenciamento.html">Gerenciamento</a><a class="nav-link" href="/avaliacoes.html">Avaliação para troca</a><a class="nav-link active" aria-current="page" href="/logs.html" data-admin-logs>Logs</a></nav><p id="session-user" class="session-user"></p></aside>
+    <main class="content-shell">
+      <header class="page-header"><div><p class="eyebrow">ADMINISTRAÇÃO</p><h1>LOGS DE ALTERAÇÕES</h1><p class="subtitle">Histórico de cadastros, edições e exclusões de equipamentos</p></div><button id="refresh-logs" class="button button-secondary btn btn-outline-primary" type="button">Atualizar logs</button></header>
+      <div id="logs-feedback" class="feedback error" role="alert" hidden></div>
+      <p class="logs-notice">Histórico das operações feitas pela aplicação a partir da ativação desta funcionalidade. Cadastros anteriores à ativação ou feitos diretamente no banco não são reconstruídos aqui. Horários de Brasília.</p>
+      <section class="panel" aria-label="Filtros de logs"><form id="logs-filters" class="logs-filters">
+        <label class="field"><span>Máquina ou valor alterado</span><input id="log-search" type="search" maxlength="150" placeholder="Pesquisar no histórico…"></label>
+        <label class="field"><span>Administrador</span><input id="log-actor" type="search" maxlength="150" placeholder="Nome do usuário"></label>
+        <label class="field"><span>Operação</span><select id="log-action"><option value="">Todas</option><option value="create">Cadastro</option><option value="update">Edição</option><option value="delete">Exclusão</option></select></label>
+        <label class="field"><span>Data inicial</span><input id="log-from" type="date"></label>
+        <label class="field"><span>Data final</span><input id="log-to" type="date"></label>
+        <div class="logs-filter-actions"><button class="button button-primary btn btn-primary" type="submit">Filtrar</button><button id="clear-log-filters" class="button button-secondary btn btn-outline-primary" type="button">Limpar</button></div>
+      </form></section>
+      <p id="logs-summary" class="subtitle" role="status" aria-live="polite"></p>
+      <p id="logs-updated" class="subtitle"></p>
+      <section class="panel records-panel"><div class="panel-heading"><div><p class="section-kicker">AUDITORIA</p><h2>Alterações registradas</h2><p id="logs-count">Carregando…</p></div></div>
+        <div class="table-scroll"><table class="table table-hover align-middle mb-0"><thead><tr><th scope="col">Data e hora</th><th scope="col">Administrador</th><th scope="col">Operação</th><th scope="col">Máquina</th><th scope="col">Alterações</th><th scope="col">Status</th><th scope="col">Detalhes</th></tr></thead><tbody id="logs-rows"></tbody></table></div>
+        <p id="logs-empty" class="table-message" hidden>Nenhuma alteração encontrada.</p>
+        <div class="pagination"><button id="logs-previous" class="button button-secondary btn btn-outline-primary" type="button">Anterior</button><span id="logs-page" role="status"></span><button id="logs-next" class="button button-secondary btn btn-outline-primary" type="button">Próxima</button></div>
+      </section>
+    </main>
+  </div>
+  <dialog id="log-detail" class="app-dialog logs-dialog" aria-labelledby="log-detail-title"><div class="modal-header"><div><p class="section-kicker">DETALHES DA ALTERAÇÃO</p><h2 id="log-detail-title"></h2></div><button id="close-log-detail" class="icon-button" type="button" aria-label="Fechar detalhes">×</button></div><p id="log-detail-meta" class="logs-detail-meta"></p><div class="table-scroll"><table class="logs-diff"><thead><tr><th scope="col">Campo</th><th scope="col">Antes</th><th scope="col">Depois</th></tr></thead><tbody id="log-detail-rows"></tbody></table></div><p id="log-detail-status" class="logs-detail-meta"></p></dialog>
+</body>
+</html>

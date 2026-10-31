@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visão Geral do Inventário</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script src="/ui.js" defer></script>
+  <link rel="stylesheet" href="/analytics.css">
+  <script src="/analytics-model.js" defer></script>
+  <script src="/dashboard.js" defer></script>
+  <script src="/account.js" defer></script>
+</head>
+<body><div class="demo-banner" role="note">DEMONSTRAÇÃO DE PORTFÓLIO · Todos os dados são fictícios · Use apenas informações sintéticas</div>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <img src="/demo-logo.svg" alt="Inventário Demo" class="sidebar-logo">
+      <nav aria-label="Navegação principal"><a class="nav-link" href="/?page=visao" data-page="visao">Visão Geral do Inventário</a><a class="nav-link" href="/?page=alugadas" data-page="alugadas">Máquinas Alugadas</a><a class="nav-link" href="/gerenciamento.html">Gerenciamento</a><a class="nav-link" href="/avaliacoes.html">Avaliação para troca</a><a class="nav-link" href="/logs.html" data-admin-logs>Logs</a></nav>
+      <p id="session-user" class="session-user"></p>
+    </aside>
+    <main class="content-shell">
+      <header class="page-header"><div><p class="eyebrow">INVENTÁRIO DE TI</p><h1 id="page-title">VISÃO GERAL DO INVENTÁRIO</h1><p id="page-subtitle" class="subtitle">Consulta, distribuição e análise dos equipamentos</p></div><div class="dashboard-actions"><span id="updated-at" class="subtitle"></span><button id="refresh-data" class="button button-secondary btn btn-outline-primary" type="button">Atualizar dados</button></div></header>
+      <div id="feedback" class="feedback error" hidden role="alert"></div>
+      <div id="loading-state" role="status">Carregando inventário…</div>
+      <div id="dashboard-content" hidden>
+        <section id="metrics" class="metric-grid analytics-metrics" aria-label="Indicadores"></section>
+        <section class="panel analytics-filters" aria-label="Filtros do relatório">
+          <div class="analytics-filter-grid">
+            <label class="field"><span>Nome da máquina</span><input id="machine-filter" type="search" placeholder="Pesquisar máquina…" maxlength="100"></label>
+            <label class="field"><span>Usuário</span><input id="user-filter" type="search" placeholder="Pesquisar usuário…" maxlength="150"></label>
+            <label class="field"><span>Setor</span><select id="sector-filter" data-field="setor"></select></label>
+            <label class="field"><span>Tipo</span><select id="type-filter" data-field="tipo_maquina"></select></label>
+            <label class="field"><span>Sistema operacional</span><select id="system-filter" data-field="sistema_operacional"></select></label>
+            <label class="field"><span>Aquisição</span><select id="acquisition-filter" data-field="tipo_aquisicao"></select></label>
+            <button id="reset-filters" type="button" class="button button-secondary btn btn-outline-primary">Limpar filtros</button>
+          </div>
+          <div class="filter-summary"><span id="filter-summary" role="status" aria-live="polite"></span><div id="filter-chips" aria-label="Filtros ativos"></div></div>
+        </section>
+        <p id="interaction-help" class="interaction-help">Clique em uma barra ou fatia para filtrar o relatório. Ctrl + clique (ou ⌘ + clique) seleciona várias categorias. Clique novamente para remover.</p>
+        <section id="charts" class="analytics-charts" aria-label="Gráficos interativos"></section>
+        <section class="panel analytics-table" aria-labelledby="table-title"><div class="panel-heading"><div><p class="section-kicker">CONSULTA</p><h2 id="table-title">Inventário detalhado</h2><p id="table-count"></p></div><button id="export-csv" class="button button-secondary btn btn-outline-primary" type="button">Exportar seleção CSV</button></div>
+          <div class="table-scroll"><table class="table table-hover align-middle mb-0"><thead><tr id="table-head"></tr></thead><tbody id="table-body"></tbody></table></div>
+          <p id="empty-state" class="table-message" hidden>Nenhum equipamento corresponde aos filtros. Use “Limpar filtros” para ampliar a consulta.</p>
+          <div class="pagination"><label>Por página <select id="page-size"><option>10</option><option selected>25</option><option>50</option><option>100</option></select></label><button id="previous" type="button" class="button button-secondary btn btn-outline-primary">Anterior</button><span id="pagination-status" role="status"></span><button id="next" type="button" class="button button-secondary btn btn-outline-primary">Próxima</button></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <dialog id="equipment-dialog" class="app-dialog" aria-labelledby="equipment-title"><div class="modal-header"><div><p class="section-kicker">DETALHES DO EQUIPAMENTO</p><h2 id="equipment-title"></h2></div><button id="close-detail" type="button" class="icon-button" aria-label="Fechar detalhes">×</button></div><dl id="equipment-detail" class="detail-list"></dl><p class="detail-note">Consulte a tela Gerenciamento para editar este equipamento.</p></dialog>
+</body>
+</html>

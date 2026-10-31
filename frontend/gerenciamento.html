@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerenciamento de Inventário</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script src="/ui.js" defer></script>
+  <script src="/inventory.js" defer></script>
+  <script src="/account.js" defer></script>
+</head>
+<body><div class="demo-banner" role="note">DEMONSTRAÇÃO DE PORTFÓLIO · Todos os dados são fictícios · Use apenas informações sintéticas</div>
+  <div class="app-layout">
+  <aside class="sidebar"><img src="/demo-logo.svg" alt="Inventário Demo" class="sidebar-logo"><nav aria-label="Navegação principal"><a class="nav-link" href="/?page=visao" data-page="visao">Visão Geral do Inventário</a><a class="nav-link" href="/?page=alugadas" data-page="alugadas">Máquinas Alugadas</a><a class="nav-link active" aria-current="page" href="/gerenciamento.html">Gerenciamento</a><a class="nav-link" href="/avaliacoes.html">Avaliação para troca</a><a class="nav-link" href="/logs.html" data-admin-logs>Logs</a></nav><p id="session-user" class="session-user"></p></aside>
+  <main class="content-shell">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">INVENTÁRIO DE TI</p>
+        <h1>GERENCIAMENTO DE INVENTÁRIO</h1>
+        <p class="subtitle">Cadastro e manutenção dos equipamentos de TI</p>
+      </div>
+      <button id="open-create" class="button button-primary btn btn-primary" type="button" disabled aria-haspopup="dialog">Cadastrar equipamento</button>
+    </header>
+
+    <p id="create-access-note" class="subtitle" hidden>Você está em modo de leitura. <a href="/login.html">Entre como administrador</a> para cadastrar ou alterar equipamentos.</p>
+
+    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+
+    <dialog id="create-dialog" class="app-dialog" aria-labelledby="cadastro-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="section-kicker">NOVO REGISTRO</p>
+          <h2 id="cadastro-heading">Cadastrar equipamento</h2>
+          <p>Preencha os dados para adicionar uma máquina ao inventário.</p>
+        </div>
+        <button class="icon-button" type="button" data-close="create-dialog" aria-label="Fechar cadastro">×</button>
+      </div>
+      <p id="create-feedback" class="modal-feedback" role="alert" hidden></p>
+      <form id="create-form" class="machine-form" data-write-only>
+        <div class="form-grid">
+          <label class="field">
+            <span>Nome da Máquina <span class="required">*</span></span>
+            <input name="nome_maquina" type="text" maxlength="100" autocomplete="off" required placeholder="Ex.: TI-NB-001">
+          </label>
+          <label class="field">
+            <span>Tipo de Máquina <span class="required">*</span></span>
+            <select name="tipo_maquina" required>
+              <option value="">Selecione</option>
+              <option>Notebook</option>
+              <option>Desktop</option>
+              <option>Outros</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Usuário</span>
+            <input name="usuario" type="text" maxlength="150" autocomplete="off" placeholder="Nome do usuário (opcional)">
+          </label>
+          <div class="field sector-field">
+            <label for="create-sector-search">Setor</label>
+            <input id="create-sector-search" type="search" autocomplete="off" placeholder="Pesquisar setor..." aria-controls="create-sector" disabled>
+            <select id="create-sector" name="setor" aria-label="Selecionar setor" disabled>
+              <option value="">Carregando setores...</option>
+            </select>
+          </div>
+          <label class="field">
+            <span>Sistema Operacional</span>
+            <select name="sistema_operacional" disabled><option value="">Carregando sistemas…</option></select>
+          </label>
+          <label class="field">
+            <span>Tipo de Aquisição <span class="required">*</span></span>
+            <select name="tipo_aquisicao" required>
+              <option value="">Selecione</option>
+              <option value="Ativo">Ativo</option>
+              <option value="Alugado">Alugado</option>
+            </select>
+          </label>
+        </div>
+        <datalist id="setores"></datalist>
+        <div class="form-actions">
+          <p><span class="required">*</span> Campos obrigatórios</p>
+          <button class="button button-secondary btn btn-outline-primary" type="button" data-close="create-dialog">Cancelar</button>
+          <button class="button button-primary btn btn-primary" type="submit">CADASTRAR EQUIPAMENTO</button>
+        </div>
+      </form>
+    </dialog>
+
+    <section class="panel records-panel" aria-labelledby="registros-heading">
+      <div class="panel-heading records-heading">
+        <div>
+          <p class="section-kicker">CONSULTA</p>
+          <h2 id="registros-heading">Equipamentos cadastrados</h2>
+          <p id="result-count" aria-live="polite">Carregando registros...</p>
+        </div>
+        <label class="search-field">
+          <span class="visually-hidden">Pesquisar máquina, usuário ou setor</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m15.5 15.5 5 5"></path></svg>
+          <input id="search" type="search" autocomplete="off" placeholder="Pesquisar máquina, usuário ou setor...">
+        </label>
+      </div>
+      <div class="filter-row">
+        <label>Setor<select id="filter-sector"><option value="">Todos</option></select></label>
+        <label>Tipo<select id="filter-type"><option value="">Todos</option></select></label>
+        <label>Aquisição<select id="filter-acquisition"><option value="">Todos</option><option>Ativo</option><option>Alugado</option></select></label>
+        <button id="clear-filters" class="button button-secondary btn btn-outline-primary" type="button">Limpar filtros</button>
+      </div>
+      <div class="table-scroll">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col"><button class="sort-button" data-sort="nome_maquina">Máquina</button></th>
+              <th scope="col"><button class="sort-button" data-sort="usuario">Usuário</button></th>
+              <th scope="col"><button class="sort-button" data-sort="setor">Setor</button></th>
+              <th scope="col"><button class="sort-button" data-sort="tipo_maquina">Tipo de Equipamento</button></th>
+              <th scope="col"><button class="sort-button" data-sort="sistema_operacional">Sistema Operacional</button></th>
+              <th scope="col"><button class="sort-button" data-sort="tipo_aquisicao">Tipo de Aquisição</button></th>
+            </tr>
+          </thead>
+          <tbody id="machine-rows"></tbody>
+        </table>
+      </div>
+      <p id="table-message" class="table-message" role="status" hidden></p>
+      <div class="pagination"><button id="previous-page" class="button button-secondary btn btn-outline-primary" type="button">Anterior</button><span id="page-status">Página 1</span><button id="next-page" class="button button-secondary btn btn-outline-primary" type="button">Próxima</button></div>
+    </section>
+  </main></div>
+
+  <dialog id="detail-dialog" class="app-dialog" aria-labelledby="detail-heading"><div class="modal-header"><div><p class="section-kicker">DETALHES</p><h2 id="detail-heading">Equipamento</h2></div><button class="icon-button" type="button" data-close="detail-dialog" aria-label="Fechar">×</button></div><dl id="detail-list" class="detail-list"></dl><div class="modal-actions dialog-padding"><button class="button button-secondary btn btn-outline-primary" type="button" data-close="detail-dialog">Fechar</button></div></dialog>
+
+  <dialog id="edit-dialog" class="app-dialog" aria-labelledby="edit-heading">
+    <div class="modal-header">
+      <div>
+        <p class="section-kicker">ATUALIZAR REGISTRO</p>
+        <h2 id="edit-heading">Editar equipamento</h2>
+      </div>
+      <button class="icon-button" type="button" data-close="edit-dialog" aria-label="Fechar">×</button>
+    </div>
+    <p id="edit-feedback" class="modal-feedback" role="alert" hidden></p>
+    <form id="edit-form" class="machine-form">
+      <div class="form-grid modal-grid">
+        <label class="field"><span>Nome da Máquina <span class="required">*</span></span><input name="nome_maquina" type="text" maxlength="100" required></label>
+        <label class="field"><span>Tipo de Equipamento <span class="required">*</span></span><select name="tipo_maquina" required><option value="">Selecione</option><option>Notebook</option><option>Desktop</option><option>Outros</option></select></label>
+        <label class="field"><span>Usuário</span><input name="usuario" type="text" maxlength="150"></label>
+        <label class="field"><span>Setor</span><input name="setor" type="text" maxlength="100" list="setores"></label>
+        <label class="field"><span>Sistema Operacional</span><select name="sistema_operacional"><option value="">Não informado</option></select></label>
+        <label class="field"><span>Tipo de Aquisição <span class="required">*</span></span><select name="tipo_aquisicao" required><option value="">Selecione</option><option value="Ativo">Ativo</option><option value="Alugado">Alugado</option></select></label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-secondary btn btn-outline-primary" type="button" data-close="edit-dialog">Cancelar</button>
+        <button class="button button-primary btn btn-primary" type="submit">SALVAR ALTERAÇÕES</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="delete-dialog" class="app-dialog confirm-modal" aria-labelledby="delete-heading">
+    <div class="modal-header">
+      <div>
+        <p class="section-kicker attention">CONFIRMAÇÃO NECESSÁRIA</p>
+        <h2 id="delete-heading">Excluir equipamento?</h2>
+      </div>
+      <button class="icon-button" type="button" data-close="delete-dialog" aria-label="Fechar">×</button>
+    </div>
+    <p>Esta ação removerá permanentemente <strong id="delete-name"></strong> do inventário.</p>
+    <div class="modal-actions">
+      <button class="button button-secondary btn btn-outline-primary" type="button" data-close="delete-dialog">Cancelar</button>
+      <button id="confirm-delete" class="button button-danger btn btn-danger" type="button">CONFIRMAR EXCLUSÃO</button>
+    </div>
+  </dialog>
+</body>
+</html>
