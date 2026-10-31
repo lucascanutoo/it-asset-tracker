@@ -1,69 +1,69 @@
-# Inventário de TI
+# IT Asset Tracker
 
-Projeto de inventário de equipamentos de TI que centraliza o cadastro de computadores, a identificação dos responsáveis e o acompanhamento de substituições e entregas. A aplicação reúne informações que ajudam a equipe de TI a consultar os ativos, organizar a manutenção dos cadastros e planejar a renovação dos equipamentos.
+An IT equipment inventory application that centralizes computer records, user assignments, replacement evaluations, and deliveries. It helps IT teams find assets, keep inventory records up to date, and plan equipment replacements.
 
-Esta versão foi preparada para demonstração em portfólio. A identidade visual, as contas e todos os registros são fictícios, gerados do zero.
+This version was prepared for portfolio demonstrations. Its visual identity, accounts, and all records are fictional and were created from scratch. The application interface is in Brazilian Portuguese.
 
-## Quais problemas a aplicação resolve
+## Problems it solves
 
-| Problema | Como a aplicação ajuda |
+| Problem | How the application helps |
 | --- | --- |
-| Informações de equipamentos espalhadas em planilhas ou registros separados | Centraliza o inventário em uma interface com cadastro, edição e consulta dos ativos. |
-| Dificuldade para identificar quem utiliza cada computador e em qual setor | Relaciona o equipamento ao usuário, setor, sistema operacional e tipo de aquisição. |
-| Pouca visibilidade sobre a distribuição dos equipamentos | Apresenta indicadores e gráficos com filtros por setor, tipo de equipamento, sistema operacional e aquisição. |
-| Dificuldade para consultar equipamentos próprios e alugados | Permite filtrar os ativos por modalidade de aquisição e acessar uma visão dedicada às máquinas alugadas. |
-| Solicitações de troca sem critérios claros de prioridade | Registra avaliações e calcula uma prioridade sugerida com base na frequência das falhas e no impacto no trabalho, mantendo a aprovação sob análise técnica. |
-| Falta de acompanhamento entre a aprovação de uma troca e a entrega | Organiza os equipamentos aprovados em uma lista de entregas, com situação, data e identificação de quem recebeu. |
-| Retrabalho ao cadastrar o novo equipamento após uma substituição | Integra o registro da entrega ao cadastro ou à atualização do novo equipamento no inventário. |
-| Dificuldade para rastrear alterações nos cadastros | Mantém um histórico das inclusões, edições e exclusões, com responsável e valores anteriores e posteriores. |
+| Equipment information scattered across spreadsheets or separate records | Provides a central interface to add, edit, and look up assets. |
+| Difficulty identifying who uses each computer and which department it belongs to | Links equipment to its user, department, operating system, and ownership type. |
+| Limited visibility into equipment distribution | Displays metrics and charts with filters for department, equipment type, operating system, and ownership type. |
+| Difficulty tracking owned and leased equipment | Filters assets by ownership type and provides a dedicated view of leased machines. |
+| Replacement requests without clear priorities | Records evaluations and suggests a priority based on failure frequency and impact on work, with approval subject to technical review. |
+| Gaps in tracking between replacement approval and delivery | Organizes approved requests in a delivery list with status, date, and recipient details. |
+| Duplicate work when registering replacement equipment | Creates or updates the new equipment record when delivery details are saved. |
+| Difficulty tracing inventory changes | Keeps an audit history of additions, edits, and deletions, including the responsible account and previous and new values. |
 
-## Principais funcionalidades
+## Features
 
-- Cadastro, edição, exclusão e consulta de equipamentos.
-- Pesquisa, filtros, ordenação e paginação do inventário.
-- Dashboard interativo e exportação da seleção em CSV.
-- Registro de avaliações para substituição de equipamentos.
-- Parecer técnico, aprovação e controle de entregas.
-- Histórico de alterações do inventário.
-- Login com sessão e perfis administrativos de demonstração.
+- Create, edit, delete, and look up equipment records.
+- Search, filter, sort, and paginate the inventory.
+- Explore an interactive dashboard and export the current selection to CSV.
+- Register equipment replacement evaluations.
+- Record technical reviews, approvals, and deliveries.
+- View inventory audit history.
+- Sign in with session-based authentication and demo administrator accounts.
 
-## Fluxo de uso
+## Typical workflow
 
-1. Cadastrar os equipamentos e seus responsáveis.
-2. Consultar o inventário e analisar a distribuição dos ativos no dashboard.
-3. Registrar uma avaliação quando um equipamento apresentar necessidade de substituição.
-4. Analisar a prioridade sugerida, registrar o parecer técnico e decidir sobre a aprovação.
-5. Acompanhar a entrega e vincular o novo equipamento ao inventário.
-6. Consultar o histórico para conferir as alterações realizadas nos cadastros.
+1. Register equipment and assign its users.
+2. Browse the inventory and analyze asset distribution on the dashboard.
+3. Register an evaluation when equipment may need replacement.
+4. Review the suggested priority, record a technical assessment, and decide whether to approve the request.
+5. Track delivery and link the new equipment to the inventory.
+6. Check the audit history to review inventory changes.
 
-## Tecnologias
+## Technology
 
-- **Node.js e Express:** API e servidor da aplicação.
-- **SQLite:** armazenamento local do inventário e da auditoria.
-- **JSON:** armazenamento local das avaliações e entregas.
-- **HTML, CSS, JavaScript e Bootstrap:** interface web com recursos servidos localmente.
+- **Node.js and Express:** application API and web server.
+- **SQLite:** local inventory and audit storage.
+- **JSON:** local storage for replacement evaluations and deliveries.
+- **HTML, CSS, JavaScript, and Bootstrap:** web interface with locally served assets.
 
-## Executar
+## Run locally
 
-Requer Node.js 24 ou superior e npm. Na pasta deste projeto:
+Requires Node.js 24 or later and npm. From the project directory:
 
 ```powershell
 npm ci --ignore-scripts
 npm start
 ```
 
-Abra [a aplicação local](http://127.0.0.1:4317).
+Open [the local application](http://127.0.0.1:4317).
 
-Contas de demonstração: `demo.admin` ou `demo.gestor`. Senha pública para ambas: `Demo-Portfolio-2026!`. As duas têm perfil administrador para demonstrar o fluxo completo. Não reutilize essas credenciais em outros sistemas.
+Demo accounts: `demo.admin` or `demo.gestor`. The public password for both is `Demo-Portfolio-2026!`. Both accounts have administrator access to demonstrate the complete workflow. Do not reuse these credentials in other systems.
 
-## Configuração e dados
+## Configuration and data
 
-Opcionalmente, copie `.env.example` para `.env` e altere `DEMO_PORT`. Nenhuma outra configuração é aceita. Não configure servidores ou credenciais externos.
+Optionally, copy `.env.example` to `.env` and change `DEMO_PORT`. No other configuration is accepted. Do not configure external servers or credentials.
 
-O primeiro início cria 72 equipamentos e 12 avaliações sintéticos em `data/demo.sqlite` e `data/evaluations.json`. A pasta `data` e o arquivo `.env` ficam fora do Git. Para restaurar o cenário inicial, pare o servidor e exclua somente a pasta `data` deste projeto; os arquivos serão recriados no próximo início.
+On first startup, the application generates 72 synthetic equipment records and 12 synthetic evaluations in `data/demo.sqlite` and `data/evaluations.json`. The `data` directory and `.env` file are excluded from Git. To restore the initial scenario, stop the server and delete only this project's `data` directory; the files will be recreated on the next startup.
 
-O servidor aceita apenas acesso local direto, sem proxy ou origens externas, e recusa início com `NODE_ENV=production`. A demo não possui conexões à infraestrutura corporativa. As contas públicas são destinadas somente à execução local; não exponha a aplicação na internet.
+The server accepts direct local access only, without proxies or external origins, and refuses to start with `NODE_ENV=production`. The demo has no connections to corporate infrastructure. Its public accounts are intended for local use only; do not expose the application to the internet.
 
-## Licenças e divulgação
+## Licensing and publication
 
-O aviso de licença MIT do Bootstrap está em `frontend/vendor/bootstrap/LICENSE`. Antes de publicar código, design ou regras reaproveitados de trabalho profissional, confirme a autorização empresarial. Nenhuma licença de redistribuição do código próprio foi presumida.
+Bootstrap's MIT license notice is included in `frontend/vendor/bootstrap/LICENSE`. Before publishing code, designs, or business rules reused from professional work, confirm that you have the company's authorization. No redistribution license has been assumed for the project's own code.
